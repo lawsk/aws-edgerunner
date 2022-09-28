@@ -150,8 +150,8 @@ def applyLeave():
     return render_template("LeaveOutput.html", date=datetime.now(), StartLeave=start_date,
     EndLeave=end_date)
 
-# manage leave
-@app.route("/leave/manage")
+# change leave
+@app.route("/leave/change", methods=['GET','POST'])
 def manageLeave():
     emp_id = request.form['emp_id']
     StartLeave = request.form['start_date']
@@ -160,7 +160,8 @@ def manageLeave():
     # Update statement
     update_stmt = "UPDATE leave" +
      " SET start_date = (%(start_date)s), end_date = (%(end_date)s)" +
-     " WHERE emp_id = %(emp_id)s"
+     " WHERE emp_id = %(emp_id)s" +
+     " AND start_date = (%(start_date)s) AND end_date = (%(end_date)s)"
 
     cursor = db_conn.cursor()
 
@@ -182,19 +183,25 @@ def manageLeave():
     EndLeave=end_date)
 
 # cancel leave
-@app.route("/leave/cancel")
+@app.route("/leave/cancel", methods=['GET','POST'])
 def cancelLeave():
     emp_id = request.form['emp_id']
+    StartLeave = request.form['start_date']
+    EndLeave = request.form['end_date']
 
     # Update statement
     update_stmt = "UPDATE leave" +
      " SET leave_status = 0" +
-     " WHERE emp_id = %(emp_id)s"
+     " WHERE emp_id = %(emp_id)s" +
+     " AND start_date = (%(start_date)s) AND end_date = (%(end_date)s)"
 
     cursor = db_conn.cursor()
 
+    start_date = StartLeave.strftime('%Y-%m-%d %H:%M:%S')
+    end_date = EndLeave.strftime('%Y-%m-%d %H:%M:%S')
+
     try:
-        cursor.execute(update_stmt)
+        cursor.execute(update_stmt, {'emp_id': int(emp_id), 'start_date': start_date, 'end_date': end_date})
         db_conn.commit()
         print(" Data Updated Successfully")
 
@@ -208,7 +215,7 @@ def cancelLeave():
 
 
 # get leave
-@app.route("/leave/get")
+@app.route("/leave/get", methods=['GET','POST'])
 def getLeave():
     #Get Employee
     emp_id = request.form['emp_id']
@@ -244,7 +251,7 @@ def wages():
 
 
 # insert wages
-@app.route("/wages/insert")
+@app.route("/wages/insert", methods=['GET','POST'])
 def insertWages():
     emp_id = request.form['emp_id']
     salary = Integer.parseInt(request.form['salary'])
@@ -324,12 +331,12 @@ def insertWages():
 
 
 # get wages
-@app.route("/wages/get")
+@app.route("/wages/get", methods=['GET','POST'])
 def getWages():
     #Get Employee
     emp_id = request.form['emp_id']
     # SELECT STATEMENT TO GET DATA FROM MYSQL
-    select_stmt = "SELECT * FROM wages WHERE emp_id = %(emp_id)s"
+    select_stmt = "SELECT emp_id, salary, register_date, end_date FROM wages WHERE emp_id = %(emp_id)s"
 
      
     cursor = db_conn.cursor()
