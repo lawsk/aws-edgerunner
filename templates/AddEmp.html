@@ -1,37 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='AddEmp.css')}}" />
 	<title>Add Employee Information</title>
 </head>
-<center>
-	<font color="black" size="4" style="font-family: avenir">
-
-		<h1 style="color: DodgerBlue">Employee Database</h1>
-
-		<body bgcolor="lightgrey">
-
-			<form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
-
-				<button type="submit" formaction="/getemp" style="background: grey; height: 45px; width: 200px; color:white; font:oblique;">GET EMPLOYEE INFORMATION</button><br><br>
-
-		  		Employee ID:<br> <input style="height:25px;font-size:14pt; color:grey;" type="number" name="emp_id" autofocus size="40"><br><br>
-
-		  		First Name:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="first_name" ><br><br>
-
-		  		Last Name:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="last_name"><br><br>
-
-		  		Primary Skills:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="pri_skill"><br><br>
-
-		  		Location:<br> <input style="height:25px;font-size:14pt;color:grey;" type="text" name="location"><br><br>
-
-		  		Image: <input type=file name="emp_image_file" style="height:25px;font-size:14pt;color:grey;"> <br><br>
-
-		  		<button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">UPDATE DATABASE</button>
-
-			</form>
-<a href="/about">About Us</a>
-		</body>
-
-	</font>
-</center>
+<body>
+	<div class="navbar">
+		<div class="navbar-left">
+			<a href="/">
+				<img src="{{ url_for('static', filename='img/home.png')}}"/>
+			</a>
+		</div>
+		<div class="navbar-middle">
+			<a href="/addemp/">
+				<p>Add Employees</p>
+			</a>
+			<a href="/getemp/">
+				<p>Get Employees</p>
+			</a>
+			<a href="/leave/">
+				<p>Leave</p>
+			</a>
+			<a href="/wages/">
+				<p>Wages</p>
+			</a>
+		</div>
+		<div class="navbar-right"></div>
+		{{ date.strftime("%A, %d %B, %Y at %X") }}
+	</div>
+	
+	<!--<button type="submit" formaction="/getemp" style="background: grey; height: 45px; width: 200px; color:white; font:oblique;">GET EMPLOYEE INFORMATION</button><br><br> -->
+	<div class="form-container">
+		<!-- Add back action="/addemp and id="form-add"" -->
+		<form action="/addemp/results" autocomplete="on" method="POST" enctype="multipart/form-data" class="form-bubble">
+			<div class="form-bubble-container">
+				<label for="emp_id">Employee ID</label>
+				<input type="number" name="emp_id" autofocus placeholder="Employee ID">
+				<img src="{{ url_for('static', filename='img/id.png')}}" class="input-icons">
+			</div>
+			<div class="form-bubble-container">
+				<label for="first_name">First Name</label>
+				<input type="text" name="first_name" autofocus placeholder="First Name">
+				<img src="{{ url_for('static', filename='img/profile.png')}}" class="input-icons">
+			</div>
+			<div class="form-bubble-container">
+				<label for="last_name">Last Name</label>
+				<input type="text" name="last_name" autofocus placeholder="Last Name">
+				<img src="{{ url_for('static', filename='img/profile.png')}}" class="input-icons">
+			</div>
+			<div class="form-bubble-container">
+				<label for="pri_skill">Primary Skill</label>
+				<input type="text" name="pri_skill" autofocus placeholder="Primary Skill">
+				<img src="{{ url_for('static', filename='img/bag.png')}}" class="input-icons">
+			</div>
+			<div class="form-bubble-container">
+				<label for="location">Location</label>
+				<input type="text" name="location" autofocus placeholder="Location">
+				<img src="{{ url_for('static', filename='img/location.png')}}" class="input-icons">
+			</div>
+			<div class="form-bubble-container">
+				<label for="emp_image_file">Image</label>
+				<input type="file" name="emp_image_file" class="custom-file-input" autofocus multiple="multiple">
+			</div>
+			<button type="submit" class="form-button1">ADD EMPLOYEE</button>
+		</div>
+	
+		</form>
+		
+	
+</body>
 </html>
