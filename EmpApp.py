@@ -136,7 +136,7 @@ def applyLeave():
     end_date = EndLeave.strftime('%Y-%m-%d %H:%M:%S')
 
     try:
-        cursor.execute(insert_stmt, {'emp_id': int(emp_id), 'start_date': start_date, 'end_date': end_date, 'leave_status' = 1})
+        cursor.execute(insert_stmt, {'emp_id': int(emp_id), 'start_date': start_date, 'end_date': end_date, 'leave_status' = '1'})
         db_conn.commit()
         print(" Data Inserted into MySQL")
 
@@ -267,7 +267,7 @@ def insertWages():
         if cursor1.rowcount == 0:
 
             # Insert statement
-            insert_stmt = "INSERT INTO wages VALUES ((%(emp_id)s),(%(salary)d),(%(register_date)s),(%(end_date)s),(%(wages_status)s))"
+            insert_stmt = "INSERT INTO wages VALUES ((%(emp_id)s),(%(salary)s),(%(register_date)s),(%(end_date)s),(%(wages_status)s))"
 
             try:
                 cursor2.execute(insert_stmt, {'emp_id': int(emp_id), 'salary': salary,
@@ -291,7 +291,7 @@ def insertWages():
                 print(" Data Updated Successfully")
 
                 # Insert statement
-                insert_stmt = "INSERT INTO wages VALUES ((%(emp_id)s),(%(salary)d),(%(register_date)s),(%(end_date)s),(%(wages_status)s))"
+                insert_stmt = "INSERT INTO wages VALUES ((%(emp_id)s),(%(salary)s),(%(register_date)s),(%(end_date)s),(%(wages_status)s))"
 
                 try:
                     cursor2.execute(insert_stmt, {'emp_id': int(emp_id), 'salary': salary,
