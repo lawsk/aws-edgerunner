@@ -136,7 +136,7 @@ def applyLeave():
     end_date = datetime.strptime(EndLeave,'%Y-%m-%d')
 
     try:
-        cursor.execute(insert_stmt, {'emp_id': int(emp_id), 'start_date': start_date, 'end_date': end_date, 'leave_status': '1'})
+        cursor.execute(insert_stmt, {'emp_id': int(emp_id), 'start_date': start_date, 'end_date': end_date, 'leave_status': 1})
         db_conn.commit()
         print(" Data Inserted into MySQL")
 
@@ -213,7 +213,7 @@ def getLeave():
     #Get Employee
     emp_id = request.form['emp_id']
     # SELECT STATEMENT TO GET DATA FROM MYSQL
-    select_stmt = "SELECT * FROM leave WHERE emp_id = %(emp_id)s"
+    select_stmt = "SELECT * FROM leave WHERE emp_id = %(emp_id)s AND leave_status = 1"
 
      
     cursor = db_conn.cursor()
@@ -270,7 +270,7 @@ def insertWages():
 
             try:
                 cursor2.execute(insert_stmt, {'emp_id': int(emp_id), 'salary': salary,
-                 'register_date': start_date, 'end_date': end_date, 'wages_status': '1'})
+                 'register_date': start_date, 'end_date': end_date, 'wages_status': 1})
                 db_conn.commit()
                 print(" Data Inserted into MySQL")
 
@@ -294,7 +294,7 @@ def insertWages():
 
                 try:
                     cursor2.execute(insert_stmt, {'emp_id': int(emp_id), 'salary': salary,
-                     'register_date': start_date, 'end_date': end_date, 'wages_status': '1'})
+                     'register_date': start_date, 'end_date': end_date, 'wages_status': 1})
                     db_conn.commit()
                     print(" Data Inserted into MySQL")
 
@@ -324,7 +324,7 @@ def getWages():
     #Get Employee
     emp_id = request.form['emp_id']
     # SELECT STATEMENT TO GET DATA FROM MYSQL
-    select_stmt = "SELECT emp_id, salary, register_date, end_date FROM wages WHERE emp_id = %(emp_id)s"
+    select_stmt = "SELECT emp_id, salary, register_date, end_date FROM wages WHERE emp_id = %(emp_id)s AND wages_status = 1"
 
      
     cursor = db_conn.cursor()
