@@ -88,7 +88,7 @@ def getEmp():
 
 
 #Get Employee Results
-@app.route("/getemp/output",methods=['GET','POST'])
+@app.route("/getemp/results",methods=['GET','POST'])
 def Employee():
     
      #Get Employee
