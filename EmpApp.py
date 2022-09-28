@@ -128,7 +128,7 @@ def applyLeave():
     EndLeave = request.form['end_date']
 
     # Insert statement
-    insert_stmt = "INSERT INTO 'leave' VALUES ((%(emp_id)s),(%(start_date)s),(%(end_date)s),(%(leave_status)s))"
+    insert_stmt = "INSERT INTO leaves VALUES ((%(emp_id)s),(%(start_date)s),(%(end_date)s),(%(leave_status)s))"
 
     cursor = db_conn.cursor()
 
@@ -157,7 +157,7 @@ def manageLeave():
     EndLeave = request.form['end_date']
 
     # Update statement
-    update_stmt = "UPDATE 'leave' SET start_date = (%(start_date)s), end_date = (%(end_date)s) WHERE emp_id = %(emp_id)s AND start_date = (%(start_date)s) AND end_date = (%(end_date)s)"
+    update_stmt = "UPDATE leaves SET start_date = (%(start_date)s), end_date = (%(end_date)s) WHERE emp_id = %(emp_id)s AND start_date = (%(start_date)s) AND end_date = (%(end_date)s)"
 
     cursor = db_conn.cursor()
 
@@ -186,7 +186,7 @@ def cancelLeave():
     EndLeave = request.form['end_date']
 
     # Update statement
-    update_stmt = "UPDATE 'leave' SET leave_status = 0 WHERE emp_id = %(emp_id)s AND start_date = (%(start_date)s) AND end_date = (%(end_date)s)"
+    update_stmt = "UPDATE leaves SET leave_status = 0 WHERE emp_id = %(emp_id)s AND start_date = (%(start_date)s) AND end_date = (%(end_date)s)"
 
     cursor = db_conn.cursor()
 
@@ -213,7 +213,7 @@ def getLeave():
     #Get Employee
     emp_id = request.form['emp_id']
     # SELECT STATEMENT TO GET DATA FROM MYSQL
-    select_stmt = "SELECT * FROM 'leave' WHERE emp_id = %(emp_id)s AND leave_status = 1"
+    select_stmt = "SELECT * FROM leaves WHERE emp_id = %(emp_id)s AND leave_status = 1"
 
      
     cursor = db_conn.cursor()
