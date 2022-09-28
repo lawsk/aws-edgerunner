@@ -270,7 +270,7 @@ def insertWages():
 
             try:
                 cursor2.execute(insert_stmt, {'emp_id': int(emp_id), 'salary': salary,
-                 'register_date': start_date, 'end_date': end_date, 'wages_status': 1})
+                 'register_date': register_date, 'end_date': end_date, 'wages_status': 1})
                 db_conn.commit()
                 print(" Data Inserted into MySQL")
 
@@ -294,7 +294,7 @@ def insertWages():
 
                 try:
                     cursor2.execute(insert_stmt, {'emp_id': int(emp_id), 'salary': salary,
-                     'register_date': start_date, 'end_date': end_date, 'wages_status': 1})
+                     'register_date': register_date, 'end_date': end_date, 'wages_status': 1})
                     db_conn.commit()
                     print(" Data Inserted into MySQL")
 
@@ -314,7 +314,7 @@ def insertWages():
     finally:
         cursor1.close()
 
-    return render_template("WagesOutput.html", date=datetime.now(), RegisterDate=start_date, 
+    return render_template("WagesOutput.html", date=datetime.now(), RegisterDate=register_date, 
     Salary=salary)
 
 
