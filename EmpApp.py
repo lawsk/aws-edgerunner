@@ -157,7 +157,7 @@ def manageLeave():
     EndLeave = request.form['end_date']
 
     # Update statement
-    update_stmt = "UPDATE leaves SET start_date = (%(start_date)s), end_date = (%(end_date)s) WHERE emp_id = %(emp_id)s AND start_date = (%(start_date)s) AND end_date = (%(end_date)s)"
+    update_stmt = "UPDATE leaves SET start_date = (%(start_date)s), end_date = (%(end_date)s) WHERE emp_id = %(emp_id)s"
 
     cursor = db_conn.cursor()
 
