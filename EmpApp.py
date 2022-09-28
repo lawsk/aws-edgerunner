@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from datetime import datetime
 from pymysql import connections
 import os
 import boto3
@@ -20,19 +21,19 @@ db_conn = connections.Connection(
 output = {}
 table = 'employee'
 
-
+#main page
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('AddEmp.html')
+    return render_template('home.html',date=datetime.now())
+
+# add employee page
+@app.route("/addemp/",methods=['GET','POST'])
+def addEmp():
+    return render_template('AddEmp.html',date=datetime.now())
 
 
-@app.route("/about", methods=['POST'])
-def about():
-    return render_template('www.intellipaat.com')
-
-
-@app.route("/addemp", methods=['POST'])
-def AddEmp():
+@app.route("/addemp/insert", methods=['POST'])
+def Emp():
     emp_id = request.form['emp_id']
     first_name = request.form['first_name']
     last_name = request.form['last_name']
@@ -80,6 +81,280 @@ def AddEmp():
     print("all modification done...")
     return render_template('AddEmpOutput.html', name=emp_name)
 
+#Get Employee DONE
+@app.route("/getemp/")
+def getEmp():
+    return render_template('GetEmp.html',date=datetime.now())
 
+
+#Get Employee Results
+@app.route("/getemp/output",methods=['GET','POST'])
+def Employee():
+    
+     #Get Employee
+     emp_id = request.form['emp_id']
+    # SELECT STATEMENT TO GET DATA FROM MYSQL
+     select_stmt = "SELECT * FROM employee WHERE emp_id = %(emp_id)s"
+
+     
+     cursor = db_conn.cursor()
+        
+     try:
+         cursor.execute(select_stmt, { 'emp_id': int(emp_id) })
+         # #FETCH ONLY ONE ROWS OUTPUT
+         for result in cursor:
+            print(result)
+        
+
+     except Exception as e:
+        return str(e)
+        
+     finally:
+        cursor.close()
+    
+
+     return render_template("GetEmpOutput.html",result=result,date=datetime.now())
+
+# Leave
+@app.route("/leave/")
+def leave():
+    return render_template("Leave.html",date=datetime.now())
+
+# apply leave
+@app.route("/leave/apply", methods=['GET','POST'])
+def applyLeave():
+    emp_id = request.form['emp_id']
+    StartLeave = request.form['start_date']
+    EndLeave = request.form['end_date']
+
+    # Insert statement
+    insert_stmt = "INSERT INTO leave VALUES"+
+     "((%(emp_id)s),(%(start_date)s),(%(end_date)s),(%(leave_status)s))"
+
+    cursor = db_conn.cursor()
+
+    start_date = StartLeave.strftime('%Y-%m-%d %H:%M:%S')
+    end_date = EndLeave.strftime('%Y-%m-%d %H:%M:%S')
+
+    try:
+        cursor.execute(insert_stmt, {'emp_id': int(emp_id), 'start_date': start_date, 'end_date': end_date, 'leave_status' = 1})
+        db_conn.commit()
+        print(" Data Inserted into MySQL")
+
+    except Exception as e:
+        return str(e)
+
+    finally:
+        cursor.close()
+
+    return render_template("LeaveOutput.html", date=datetime.now(), StartLeave=start_date,
+    EndLeave=end_date)
+
+# manage leave
+@app.route("/leave/manage")
+def manageLeave():
+    emp_id = request.form['emp_id']
+    StartLeave = request.form['start_date']
+    EndLeave = request.form['end_date']
+
+    # Update statement
+    update_stmt = "UPDATE leave" +
+     " SET start_date = (%(start_date)s), end_date = (%(end_date)s)" +
+     " WHERE emp_id = %(emp_id)s"
+
+    cursor = db_conn.cursor()
+
+    start_date = StartLeave.strftime('%Y-%m-%d %H:%M:%S')
+    end_date = EndLeave.strftime('%Y-%m-%d %H:%M:%S')
+
+    try:
+        cursor.execute(update_stmt, {'emp_id': int(emp_id), 'start_date': start_date, 'end_date': end_date})
+        db_conn.commit()
+        print(" Data Updated Successfully")
+
+    except Exception as e:
+        return str(e)
+
+    finally:
+        cursor.close()
+
+    return render_template("LeaveOutput.html", date=datetime.now(), StartLeave=start_date,
+    EndLeave=end_date)
+
+# cancel leave
+@app.route("/leave/cancel")
+def cancelLeave():
+    emp_id = request.form['emp_id']
+
+    # Update statement
+    update_stmt = "UPDATE leave" +
+     " SET leave_status = 0" +
+     " WHERE emp_id = %(emp_id)s"
+
+    cursor = db_conn.cursor()
+
+    try:
+        cursor.execute(update_stmt)
+        db_conn.commit()
+        print(" Data Updated Successfully")
+
+    except Exception as e:
+        return str(e)
+
+    finally:
+        cursor.close()
+
+    return render_template("Leave.html", date=datetime.now())
+
+
+# get leave
+@app.route("/leave/get")
+def getLeave():
+    #Get Employee
+    emp_id = request.form['emp_id']
+    # SELECT STATEMENT TO GET DATA FROM MYSQL
+    select_stmt = "SELECT * FROM leave WHERE emp_id = %(emp_id)s"
+
+     
+    cursor = db_conn.cursor()
+        
+    try:
+        cursor.execute(select_stmt, { 'emp_id': int(emp_id) })
+
+        # FETCH ONLY ONE ROWS OUTPUT
+        for result in cursor:
+            print(result)
+        
+
+    except Exception as e:
+        return str(e)
+        
+    finally:
+        cursor.close()
+    
+
+    return render_template("GetLeave.html",result=result,date=datetime.now())
+
+
+# Wages
+@app.route("/wages/")
+def wages():
+    return render_template("Wages.html",date=datetime.now())
+
+
+
+# insert wages
+@app.route("/wages/insert")
+def insertWages():
+    emp_id = request.form['emp_id']
+    salary = Integer.parseInt(request.form['salary'])
+
+
+    # select statement
+    select_stmt = "SELECT wages_status from wages"+
+    "WHERE emp_id = %(emp_id)s"+
+    "AND wages_status = 1"
+
+    cursor1 = db_conn.cursor()
+    cursor2 = db_conn.cursor()
+    cursor3 = db_conn.cursor()
+
+    RegisterDate = datetime.now()
+    register_date = RegisterDate.strftime('%Y-%m-%d %H:%M:%S')
+    end_date = None
+
+    try:
+        cursor1.execute(select_stmt, { 'emp_id': int(emp_id) })
+        if cursor1.rowcount == 0:
+
+            # Insert statement
+            insert_stmt = "INSERT INTO wages VALUES" +
+            " ((%(emp_id)s),(%(salary)d),(%(register_date)s),(%(end_date)s),(%(wages_status)s))"
+
+            try:
+                cursor2.execute(insert_stmt, {'emp_id': int(emp_id), 'salary': salary,
+                 'register_date': start_date, 'end_date': end_date, 'wages_status' = 1})
+                db_conn.commit()
+                print(" Data Inserted into MySQL")
+
+            except Exception as e:
+                return str(e)
+            finally:
+                cursor2.close()
+
+        else:
+            
+            # Update statement
+            update_stmt = "UPDATE wages SET wages_status = 0"+
+            "WHERE wages_status = 1 AND emp_id = %(emp_id)s"
+
+            try:
+                cursor3.execute(update_stmt, { 'emp_id': int(emp_id) })
+                db_conn.commit()
+                print(" Data Updated Successfully")
+
+                # Insert statement
+                insert_stmt = "INSERT INTO wages VALUES" +
+                " ((%(emp_id)s),(%(salary)d),(%(register_date)s),(%(end_date)s),(%(wages_status)s))"
+
+                try:
+                    cursor2.execute(insert_stmt, {'emp_id': int(emp_id), 'salary': salary,
+                     'register_date': start_date, 'end_date': end_date, 'wages_status' = 1})
+                    db_conn.commit()
+                    print(" Data Inserted into MySQL")
+
+                except Exception as e:
+                    return str(e)
+                finally:
+                    cursor2.close()
+
+            except Exception as e:
+                return str(e)
+            finally:
+                cursor3.close()
+
+    except Exception as e:
+        return str(e)
+
+    finally:
+        cursor1.close()
+
+    return render_template("WagesOutput.html", date=datetime.now(), RegisterDate=start_date, 
+    Salary=salary)
+
+
+# get wages
+@app.route("/wages/get")
+def getWages():
+    #Get Employee
+    emp_id = request.form['emp_id']
+    # SELECT STATEMENT TO GET DATA FROM MYSQL
+    select_stmt = "SELECT * FROM wages WHERE emp_id = %(emp_id)s"
+
+     
+    cursor = db_conn.cursor()
+        
+    try:
+        cursor.execute(select_stmt, { 'emp_id': int(emp_id) })
+
+        # FETCH ONLY ONE ROWS OUTPUT
+        for result in cursor:
+            print(result)
+        
+
+    except Exception as e:
+        return str(e)
+        
+    finally:
+        cursor.close()
+    
+
+    return render_template("GetWages.html",result=result,date=datetime.now())
+
+
+
+
+
+# change port number
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
