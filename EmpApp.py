@@ -132,8 +132,8 @@ def applyLeave():
 
     cursor = db_conn.cursor()
 
-    start_date = StartLeave.strftime('%Y-%m-%d %H:%M:%S')
-    end_date = EndLeave.strftime('%Y-%m-%d %H:%M:%S')
+    start_date = datetime.strptime(StartLeave,'%Y-%m-%d %H:%M:%S')
+    end_date = datetime.strptime(EndLeave,'%Y-%m-%d %H:%M:%S')
 
     try:
         cursor.execute(insert_stmt, {'emp_id': int(emp_id), 'start_date': start_date, 'end_date': end_date, 'leave_status': '1'})
@@ -161,8 +161,8 @@ def manageLeave():
 
     cursor = db_conn.cursor()
 
-    start_date = StartLeave.strftime('%Y-%m-%d %H:%M:%S')
-    end_date = EndLeave.strftime('%Y-%m-%d %H:%M:%S')
+    start_date = datetime.strptime(StartLeave,'%Y-%m-%d %H:%M:%S')
+    end_date = datetime.strptime(EndLeave,'%Y-%m-%d %H:%M:%S')
 
     try:
         cursor.execute(update_stmt, {'emp_id': int(emp_id), 'start_date': start_date, 'end_date': end_date})
@@ -190,8 +190,8 @@ def cancelLeave():
 
     cursor = db_conn.cursor()
 
-    start_date = StartLeave.strftime('%Y-%m-%d %H:%M:%S')
-    end_date = EndLeave.strftime('%Y-%m-%d %H:%M:%S')
+    start_date = datetime.strptime(StartLeave,'%Y-%m-%d %H:%M:%S')
+    end_date = datetime.strptime(EndLeave,'%Y-%m-%d %H:%M:%S')
 
     try:
         cursor.execute(update_stmt, {'emp_id': int(emp_id), 'start_date': start_date, 'end_date': end_date})
