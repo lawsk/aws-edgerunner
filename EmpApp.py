@@ -136,7 +136,7 @@ def applyLeave():
     end_date = EndLeave.strftime('%Y-%m-%d %H:%M:%S')
 
     try:
-        cursor.execute(insert_stmt, {'emp_id': int(emp_id), 'start_date': start_date, 'end_date': end_date, 'leave_status' = '1'})
+        cursor.execute(insert_stmt, {'emp_id': int(emp_id), 'start_date': start_date, 'end_date': end_date, 'leave_status': '1'})
         db_conn.commit()
         print(" Data Inserted into MySQL")
 
@@ -271,7 +271,7 @@ def insertWages():
 
             try:
                 cursor2.execute(insert_stmt, {'emp_id': int(emp_id), 'salary': salary,
-                 'register_date': start_date, 'end_date': end_date, 'wages_status' = 1})
+                 'register_date': start_date, 'end_date': end_date, 'wages_status': '1'})
                 db_conn.commit()
                 print(" Data Inserted into MySQL")
 
@@ -295,7 +295,7 @@ def insertWages():
 
                 try:
                     cursor2.execute(insert_stmt, {'emp_id': int(emp_id), 'salary': salary,
-                     'register_date': start_date, 'end_date': end_date, 'wages_status' = 1})
+                     'register_date': start_date, 'end_date': end_date, 'wages_status': '1'})
                     db_conn.commit()
                     print(" Data Inserted into MySQL")
 
