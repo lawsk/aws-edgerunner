@@ -247,7 +247,7 @@ def wages():
 @app.route("/wages/insert", methods=['GET','POST'])
 def insertWages():
     emp_id = request.form['emp_id']
-    salary = Integer.parseInt(request.form['salary'])
+    salary = int(request.form['salary'])
 
 
     # select statement
