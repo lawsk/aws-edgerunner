@@ -124,8 +124,8 @@ def leave():
 @app.route("/leave/apply", methods=['GET','POST'])
 def applyLeave():
     emp_id = request.form['emp_id']
-    StartLeave = request.form['start_date']
-    EndLeave = request.form['end_date']
+    StartLeave = Convert.ToDateTime(request.form['start_date'])
+    EndLeave = Convert.ToDateTime(request.form['end_date'])
 
     # Insert statement
     insert_stmt = "INSERT INTO leave VALUES ((%(emp_id)s),(%(start_date)s),(%(end_date)s),(%(leave_status)s))"
@@ -153,8 +153,8 @@ def applyLeave():
 @app.route("/leave/change", methods=['GET','POST'])
 def manageLeave():
     emp_id = request.form['emp_id']
-    StartLeave = request.form['start_date']
-    EndLeave = request.form['end_date']
+    StartLeave = Convert.ToDateTime(request.form['start_date'])
+    EndLeave = Convert.ToDateTime(request.form['end_date'])
 
     # Update statement
     update_stmt = "UPDATE leave SET start_date = (%(start_date)s), end_date = (%(end_date)s) WHERE emp_id = %(emp_id)s AND start_date = (%(start_date)s) AND end_date = (%(end_date)s)"
@@ -182,8 +182,8 @@ def manageLeave():
 @app.route("/leave/cancel", methods=['GET','POST'])
 def cancelLeave():
     emp_id = request.form['emp_id']
-    StartLeave = request.form['start_date']
-    EndLeave = request.form['end_date']
+    StartLeave = Convert.ToDateTime(request.form['start_date'])
+    EndLeave = Convert.ToDateTime(request.form['end_date'])
 
     # Update statement
     update_stmt = "UPDATE leave SET leave_status = 0 WHERE emp_id = %(emp_id)s AND start_date = (%(start_date)s) AND end_date = (%(end_date)s)"
