@@ -32,7 +32,7 @@ def addEmp():
     return render_template('AddEmp.html',date=datetime.now())
 
 
-@app.route("/addemp/insert", methods=['POST'])
+@app.route("/addemp/results", methods=['POST'])
 def Emp():
     emp_id = request.form['emp_id']
     first_name = request.form['first_name']
